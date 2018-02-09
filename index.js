@@ -60,4 +60,7 @@ for(i in token_document){
 
 console.log("These are the spelling mistakes you had : \n"+incorrectWords+"and you have these many mistakes \n: "+mistakes);
 
+//now will make a json object
+
+
 
