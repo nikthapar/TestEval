@@ -2,14 +2,48 @@
 var fs = require('fs');
 var natural = require('natural');
 var tokenizer = new natural.WordTokenizer();
-
 //document to be evaluated
-var document = fs.readFileSync('document.txt','utf-8');
-//keyWords file
-var keyWords = fs.readFileSync('keyWords.txt','utf-8');
-//for tokenizing
-var token_document = tokenizer.tokenize(document);
-//console.log(token_document);
+var EvalDocument = fs.readFileSync('./documents/EvalDocument.txt','utf-8');
+//standard document
+var StandardDocument = fs.readFileSync('./documents/StandardDocument.txt','utf-8');
+//tokenizing to get the word count
+//length of standard document
+var StandardTokens = tokenizer.tokenize(StandardDocument);
+var EvalTokens = tokenizer.tokenize(EvalDocument);
+//twenty percent length relaxation
+var range = (StandardTokens.length*20)/100
+//lengths of respective documents
+var StandardLength = StandardTokens.length;
+var EvalLength = EvalTokens.length;
+
+if(EvalLength <= StandardLength-range || EvalLength >= StandardLength+range){
+  console.log("Document size invalid");
+  return;
+}
+
+//insert code here
+
+
+//json file
+let score = {
+  Standard : 
+    {
+      wordCount : StandardLength
+    }, 
+  
+  Eval : 
+    {
+      wordCount : EvalLength
+    }
+}
+//object to string
+var json = JSON.stringify(score, null, 3);
+//storing it in .json file
+fs.writeFileSync('output.json',json)
+
+/*console.log(wordpos.getNouns(StandardDocument));*/
+
+/*
 var token_keyWords = tokenizer.tokenize(keyWords);
 
 //gives the number of words
@@ -65,3 +99,4 @@ console.log("These are the spelling mistakes you had : \n"+incorrectWords+"and y
 
 
 
+*/
