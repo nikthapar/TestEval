@@ -1,7 +1,7 @@
 {
   "name": "doctest",
   "version": "1.0.0",
-  "description": "",
+  "description": "~Version 1.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,5 +12,14 @@
     "natural": "^0.5.6",
     "textract": "^2.2.0",
     "word-extractor": "^0.1.4"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anish7010/DocTest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anish7010/DocTest/issues"
+  },
+  "homepage": "https://github.com/anish7010/DocTest#readme"
 }
