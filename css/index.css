@@ -1,0 +1,21 @@
+#title{
+  color: white;
+  font-family: 'Helvetica', sans-serif;
+  letter-spacing: -2px;
+  text-align: center;
+  background: grey;
+}
+
+#content{
+  text-align: center;
+}
+
+#button {
+  margin-left: 250px; 
+  margin-top: 30px;
+}
+
+#button:active {
+  visibility: hidden;
+  opacity: 0;
+}

@@ -1,8 +1,11 @@
 {
-   "Standard": {
-      "wordCount": 3570
-   },
-   "Eval": {
-      "wordCount": 3422
-   }
+  "Standard": {
+    "wordCount": 3570,
+    "nouns": 411
+  },
+  "Eval": {
+    "wordCount": 3422,
+    "nouns": 480,
+    "commonNouns": 202
+  }
 }

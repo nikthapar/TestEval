@@ -2,101 +2,75 @@
 var fs = require('fs');
 var natural = require('natural');
 var tokenizer = new natural.WordTokenizer();
+var WordPOS = require('wordpos'),
+wordpos = new WordPOS();
+
 //document to be evaluated
-var EvalDocument = fs.readFileSync('./documents/EvalDocument.txt','utf-8');
+var evalDocument = fs.readFileSync('./documents/EvalDocument.txt','utf-8');
 //standard document
-var StandardDocument = fs.readFileSync('./documents/StandardDocument.txt','utf-8');
+var standardDocument = fs.readFileSync('./documents/StandardDocument.txt','utf-8');
+
 //tokenizing to get the word count
 //length of standard document
-var StandardTokens = tokenizer.tokenize(StandardDocument);
-var EvalTokens = tokenizer.tokenize(EvalDocument);
+var standardTokens = tokenizer.tokenize(standardDocument);
+var evalTokens = tokenizer.tokenize(evalDocument);
 //twenty percent length relaxation
-var range = (StandardTokens.length*20)/100
+var range = (standardTokens.length*20)/100
 //lengths of respective documents
-var StandardLength = StandardTokens.length;
-var EvalLength = EvalTokens.length;
+var standardLength = standardTokens.length;
+var evalLength = evalTokens.length;
 
-if(EvalLength <= StandardLength-range || EvalLength >= StandardLength+range){
+if(evalLength <= standardLength-range || evalLength >= standardLength+range){
   console.log("Document size invalid");
   return;
 }
 
-//insert code here
-
-
-//json file
-let score = {
-  Standard : 
-    {
-      wordCount : StandardLength
-    }, 
+//global variables
+var evalNouns;
+var standardNouns;
+var similarNouns = [];
+//calculating nouns back to back and calling json file creation function in end
+wordpos.getNouns(evalDocument, function(result){
+  evalNouns = result;
   
-  Eval : 
-    {
-      wordCount : EvalLength
+  wordpos.getNouns(standardDocument, function(output){
+    standardNouns = output;
+    compare();
+    })
+});
+
+//comparing nouns of both documents and calculating noun percentage
+function compare(){
+  var corpus = standardNouns;
+  var spellcheck = new natural.Spellcheck(corpus);
+  //comparing each noun of evalDoc with corpus
+  for(let i = 0; i < evalNouns.length; i++){
+	if(spellcheck.isCorrect(evalNouns[i])){
+		similarNouns.push(evalNouns[i]);
+	}
+}   
+    console.log(similarNouns)
+    end();
+} 
+
+//json file -- to be executed in the end
+ function end(){
+    var score = {
+      Standard : 
+        {
+          wordCount : standardLength,
+          nouns : standardNouns.length
+        }, 
+
+      Eval : 
+        {
+          wordCount : evalLength,
+          nouns : evalNouns.length,
+          commonNouns : similarNouns.length
+        }
     }
-}
-//object to string
-var json = JSON.stringify(score, null, 3);
-//storing it in .json file
-fs.writeFileSync('output.json',json)
-
-/*console.log(wordpos.getNouns(StandardDocument));*/
-
-/*
-var token_keyWords = tokenizer.tokenize(keyWords);
-
-//gives the number of words
-var length = token_document.length;
-console.log("Document contains "+length+"words.");
-
-
-if(length>=1000 && length<=4000)
-	console.log("Word Check Complete : It's valid")
-
-else {
-	console.log("Invalid number of words.");
-	return;
-}
-
-var marks = 0;
-var correctWords = [];
-var spellcheck = new natural.Spellcheck(token_document);
-
-for(i in token_keyWords){
-	if(spellcheck.isCorrect(token_keyWords[i])){
-		marks++;
-		correctWords.push(token_keyWords[i]);
-	}
-}
-
- 
-console.log("These are the concepts that you have covered : \n"+correctWords+"\n and you get these marks for that :"+marks);
-console.log(correctWords);
-console.log("You get these many marks : "+marks);
-
-
-//dictionary and its tokenization
-var dictionary = fs.readFileSync('dictionary.txt','utf-8');
-var token_dictionary = tokenizer.tokenize(dictionary);
-
-//checking spellings
-var spellcheck1 = new natural.Spellcheck(token_dictionary);
-var mistakes = 0;
-var incorrectWords = [];
-
-for(i in token_document){
-	if(!spellcheck1.isCorrect(token_document[i].toLowerCase())){
-		mistakes++;
-		incorrectWords.push(token_document[i]);
-	}
-}
-
-console.log("These are the spelling mistakes you had : \n"+incorrectWords+"and you have these many mistakes \n: "+mistakes);
-
-//now will make a json object
-
-
-
-
-*/
+      //object to string
+  var json = JSON.stringify(score, null, 2);
+  //storing it in .json file
+  fs.writeFileSync('output.json',json)
+ }
