@@ -1,13 +1,8 @@
 {
-  "name": "doctest",
+  "name": "Doctype",
   "version": "1.0.0",
-  "description": "~Version 1.0",
+  "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "natural": "^0.5.6",
     "textract": "^2.2.0",
@@ -15,12 +10,18 @@
     "wordpos": "^1.1.5"
   },
   "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anish7010/DocTest.git"
+    "url": "git+https://github.com/nikthapar/Doctype.git"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/anish7010/DocTest/issues"
+    "url": "https://github.com/nikthapar/Doctype/issues"
   },
-  "homepage": "https://github.com/anish7010/DocTest#readme"
+  "homepage": "https://github.com/nikthapar/Doctype#readme"
 }
